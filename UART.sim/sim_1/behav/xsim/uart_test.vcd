@@ -1,0 +1,1328 @@
+$date
+   Tue Nov 18 23:29:15 2025
+$end
+
+$version
+  2024.1
+  $dumpfile ("uart_test.vcd") 
+$end
+
+$timescale
+  1ps
+$end
+
+$scope module uart_comprehensive_tb $end
+$var reg 1 ! clk $end
+$var reg 1 " rst_n $end
+$var reg 1 # rxd $end
+$var wire 1 $ txd $end
+$var reg 8 % cpu_tx_data [7:0] $end
+$var reg 1 & cpu_tx_valid $end
+$var wire 1 ' cpu_tx_ready $end
+$var wire 8 ( cpu_rx_data [7:0] $end
+$var wire 1 ) cpu_rx_valid $end
+$var reg 1 * cpu_rx_ready $end
+$var reg 3 + baudrate_select [2:0] $end
+$var wire 1 , tx_busy $end
+$var wire 1 - rx_busy $end
+$var wire 1 . tx_fifo_full $end
+$var wire 1 / rx_fifo_empty $end
+$var integer 32 0 test_pass_count [31:0] $end
+$var integer 32 1 test_fail_count [31:0] $end
+$var integer 32 2 test_case [31:0] $end
+$var integer 32 3 tx_monitor_count [31:0] $end
+$var integer 32 4 timeout_counter [31:0] $end
+$scope module uut $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 1 7 rxd $end
+$var wire 1 $ txd $end
+$var wire 8 8 cpu_tx_data [7:0] $end
+$var wire 1 9 cpu_tx_valid $end
+$var wire 1 ' cpu_tx_ready $end
+$var wire 8 ( cpu_rx_data [7:0] $end
+$var wire 1 ) cpu_rx_valid $end
+$var wire 1 : cpu_rx_ready $end
+$var wire 3 ; baudrate_select [2:0] $end
+$var wire 1 , tx_busy $end
+$var wire 1 - rx_busy $end
+$var wire 1 . tx_fifo_full $end
+$var wire 1 / rx_fifo_empty $end
+$var wire 8 < tx_fifo_data_out [7:0] $end
+$var wire 1 = tx_fifo_empty $end
+$var wire 1 > tx_fifo_rd_en $end
+$var wire 8 ? rx_fifo_data_in [7:0] $end
+$var wire 1 @ rx_fifo_wr_en $end
+$var wire 1 A rx_fifo_full $end
+$var wire 1 B uart_tx_ready $end
+$var wire 1 C uart_rx_valid $end
+$scope module fifo_tx $end
+$var wire 1 5 clk_wr_domain $end
+$var wire 1 5 clk_rd_domain $end
+$var wire 8 8 data_i [7:0] $end
+$var wire 8 < data_o [7:0] $end
+$var wire 1 9 wr_valid_i $end
+$var wire 1 > rd_valid_i $end
+$var wire 1 = empty_o $end
+$var wire 1 . full_o $end
+$var wire 1 ' wr_ready_o $end
+$var wire 1 D rd_ready_o $end
+$var wire 1 E almost_empty_o $end
+$var wire 1 F almost_full_o $end
+$var wire 1 6 rst_n $end
+$var wire 5 G wr_addr_gray_sync [4:0] $end
+$var wire 5 H rd_addr_gray_sync [4:0] $end
+$var wire 5 I wr_addr_bin_sync [4:0] $end
+$var wire 5 J rd_addr_bin_sync [4:0] $end
+$var wire 1 K wr_handshake $end
+$var wire 1 L rd_handshake $end
+$var reg 5 M \REGISTERED_FIFO.wr_ptr_bin  [4:0] $end
+$var reg 5 N \REGISTERED_FIFO.wr_ptr_gray  [4:0] $end
+$var reg 1 O \REGISTERED_FIFO.full_reg  $end
+$var reg 1 P \REGISTERED_FIFO.almost_full_reg  $end
+$var reg 1 Q \REGISTERED_FIFO.wr_ready_reg  $end
+$var reg 5 R \REGISTERED_FIFO.rd_ptr_bin  [4:0] $end
+$var reg 5 S \REGISTERED_FIFO.rd_ptr_gray  [4:0] $end
+$var reg 8 T \REGISTERED_FIFO.data_out_reg  [7:0] $end
+$var reg 1 U \REGISTERED_FIFO.empty_reg  $end
+$var reg 1 V \REGISTERED_FIFO.almost_empty_reg  $end
+$var reg 1 W \REGISTERED_FIFO.rd_ready_reg  $end
+$var wire 1 X \REGISTERED_FIFO.full_comb  $end
+$var wire 1 Y \REGISTERED_FIFO.empty_comb  $end
+$var wire 1 Z \REGISTERED_FIFO.almost_full_comb  $end
+$var wire 1 [ \REGISTERED_FIFO.almost_empty_comb  $end
+$var wire 5 \ \REGISTERED_FIFO.fifo_count_wr  [4:0] $end
+$var wire 5 ] \REGISTERED_FIFO.fifo_count_rd  [4:0] $end
+$scope module REGISTERED_FIFO.rd_ptr_sync $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 5 ^ async_i [4:0] $end
+$var wire 5 H sync_o [4:0] $end
+$var reg 5 _ sync_ff_0 [4:0] $end
+$var reg 5 ` sync_ff_1 [4:0] $end
+$var reg 5 a sync_ff_2 [4:0] $end
+$upscope $end
+$scope module REGISTERED_FIFO.wr_ptr_sync $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 5 b async_i [4:0] $end
+$var wire 5 G sync_o [4:0] $end
+$var reg 5 c sync_ff_0 [4:0] $end
+$var reg 5 d sync_ff_1 [4:0] $end
+$var reg 5 e sync_ff_2 [4:0] $end
+$upscope $end
+$scope function bin2gray $end
+$var reg 5 f bin2gray [4:0] $end
+$var reg 5 g bin [4:0] $end
+$upscope $end
+$scope function gray2bin $end
+$var reg 5 h gray2bin [4:0] $end
+$var reg 5 i gray [4:0] $end
+$var reg 5 j result [4:0] $end
+$var integer 32 k i [31:0] $end
+$upscope $end
+$upscope $end
+$scope module uart_tx_inst $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 8 < data_i [7:0] $end
+$var wire 1 > data_valid_i $end
+$var wire 1 B ready_o $end
+$var wire 3 ; baudrate_select [2:0] $end
+$var reg 1 l txd $end
+$var wire 1 , tx_busy $end
+$var reg 3 m tx_state [2:0] $end
+$var reg 3 n bit_counter [2:0] $end
+$var reg 8 o shift_reg [7:0] $end
+$var reg 1 p transaction_en $end
+$var wire 1 q baud_enable $end
+$scope module baud_gen_tx $end
+$var wire 1 5 clk $end
+$var wire 1 r transaction_en $end
+$var wire 3 ; baudrate_mux [2:0] $end
+$var reg 1 s baudrate_clk_en $end
+$var wire 1 6 rst_n $end
+$var reg 15 t counter_div [14:0] $end
+$var reg 15 u counter_div_load [14:0] $end
+$upscope $end
+$upscope $end
+$scope module uart_rx_inst $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 1 7 rxd $end
+$var reg 8 v data_o [7:0] $end
+$var reg 1 w data_valid_o $end
+$var wire 1 - rx_busy $end
+$var wire 3 ; baudrate_select [2:0] $end
+$var reg 3 x rx_state [2:0] $end
+$var reg 3 y bit_counter [2:0] $end
+$var reg 8 z shift_reg [7:0] $end
+$var reg 1 { transaction_en $end
+$var wire 1 | baud_enable $end
+$var reg 3 } rxd_sync [2:0] $end
+$var wire 1 ~ rxd_clean $end
+$var reg 1 !! rxd_prev $end
+$var wire 1 "! start_bit_detected $end
+$scope module baud_gen_rx $end
+$var wire 1 5 clk $end
+$var wire 1 #! transaction_en $end
+$var wire 3 ; baudrate_mux [2:0] $end
+$var reg 1 $! baudrate_clk_en $end
+$var wire 1 6 rst_n $end
+$var reg 15 %! counter_div [14:0] $end
+$var reg 15 &! counter_div_load [14:0] $end
+$var reg 4 '! \BLOCK_FOR_RX.sample_counter  [3:0] $end
+$upscope $end
+$upscope $end
+$scope module fifo_rx $end
+$var wire 1 5 clk_wr_domain $end
+$var wire 1 5 clk_rd_domain $end
+$var wire 8 ? data_i [7:0] $end
+$var wire 8 ( data_o [7:0] $end
+$var wire 1 @ wr_valid_i $end
+$var wire 1 : rd_valid_i $end
+$var wire 1 / empty_o $end
+$var wire 1 A full_o $end
+$var wire 1 (! wr_ready_o $end
+$var wire 1 ) rd_ready_o $end
+$var wire 1 )! almost_empty_o $end
+$var wire 1 *! almost_full_o $end
+$var wire 1 6 rst_n $end
+$var wire 5 +! wr_addr_gray_sync [4:0] $end
+$var wire 5 ,! rd_addr_gray_sync [4:0] $end
+$var wire 5 -! wr_addr_bin_sync [4:0] $end
+$var wire 5 .! rd_addr_bin_sync [4:0] $end
+$var wire 1 /! wr_handshake $end
+$var wire 1 0! rd_handshake $end
+$var reg 5 1! \REGISTERED_FIFO.wr_ptr_bin  [4:0] $end
+$var reg 5 2! \REGISTERED_FIFO.wr_ptr_gray  [4:0] $end
+$var reg 1 3! \REGISTERED_FIFO.full_reg  $end
+$var reg 1 4! \REGISTERED_FIFO.almost_full_reg  $end
+$var reg 1 5! \REGISTERED_FIFO.wr_ready_reg  $end
+$var reg 5 6! \REGISTERED_FIFO.rd_ptr_bin  [4:0] $end
+$var reg 5 7! \REGISTERED_FIFO.rd_ptr_gray  [4:0] $end
+$var reg 8 8! \REGISTERED_FIFO.data_out_reg  [7:0] $end
+$var reg 1 9! \REGISTERED_FIFO.empty_reg  $end
+$var reg 1 :! \REGISTERED_FIFO.almost_empty_reg  $end
+$var reg 1 ;! \REGISTERED_FIFO.rd_ready_reg  $end
+$var wire 1 <! \REGISTERED_FIFO.full_comb  $end
+$var wire 1 =! \REGISTERED_FIFO.empty_comb  $end
+$var wire 1 >! \REGISTERED_FIFO.almost_full_comb  $end
+$var wire 1 ?! \REGISTERED_FIFO.almost_empty_comb  $end
+$var wire 5 @! \REGISTERED_FIFO.fifo_count_wr  [4:0] $end
+$var wire 5 A! \REGISTERED_FIFO.fifo_count_rd  [4:0] $end
+$scope module REGISTERED_FIFO.rd_ptr_sync $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 5 B! async_i [4:0] $end
+$var wire 5 ,! sync_o [4:0] $end
+$var reg 5 C! sync_ff_0 [4:0] $end
+$var reg 5 D! sync_ff_1 [4:0] $end
+$var reg 5 E! sync_ff_2 [4:0] $end
+$upscope $end
+$scope module REGISTERED_FIFO.wr_ptr_sync $end
+$var wire 1 5 clk $end
+$var wire 1 6 rst_n $end
+$var wire 5 F! async_i [4:0] $end
+$var wire 5 +! sync_o [4:0] $end
+$var reg 5 G! sync_ff_0 [4:0] $end
+$var reg 5 H! sync_ff_1 [4:0] $end
+$var reg 5 I! sync_ff_2 [4:0] $end
+$upscope $end
+$scope function bin2gray $end
+$var reg 5 J! bin2gray [4:0] $end
+$var reg 5 K! bin [4:0] $end
+$upscope $end
+$scope function gray2bin $end
+$var reg 5 L! gray2bin [4:0] $end
+$var reg 5 M! gray [4:0] $end
+$var reg 5 N! result [4:0] $end
+$var integer 32 O! i [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope task uart_transmit_byte $end
+$var reg 8 P! data [7:0] $end
+$var integer 32 Q! j [31:0] $end
+$upscope $end
+$scope task uart_receive_byte $end
+$var reg 8 R! data [7:0] $end
+$var integer 32 S! k [31:0] $end
+$upscope $end
+$scope task check_result $end
+$var reg 8 T! actual [7:0] $end
+$var reg 8 U! expected [7:0] $end
+$var reg 256 V! test_name [255:0] $end
+$upscope $end
+$scope task test_basic_tx $end
+$var reg 8 W! received_data [7:0] $end
+$upscope $end
+$scope task test_basic_rx $end
+$var reg 8 X! debug_data [7:0] $end
+$var integer 32 Y! timeout [31:0] $end
+$upscope $end
+$scope task test_simple_loopback $end
+$var reg 8 Z! received_data [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+
+#0
+$dumpvars
+0!
+1!!
+0"
+0"!
+1#
+0#!
+1$
+0$!
+b0 %
+b0 %!
+0&
+b1101100011 &!
+1'
+b0 '!
+b0 (
+1(!
+0)
+1)!
+0*
+0*!
+b111 +
+b0 +!
+0,
+b0 ,!
+0-
+b0 -!
+0.
+b0 .!
+1/
+0/!
+b0 0
+00!
+b0 1
+b0 1!
+b1 2
+b0 2!
+b0 3
+03!
+b0 4
+04!
+05
+15!
+06
+b0 6!
+17
+b0 7!
+b0 8
+b0 8!
+09
+19!
+0:
+1:!
+b111 ;
+0;!
+b0 <
+0<!
+1=
+1=!
+0>
+0>!
+b0 ?
+1?!
+0@
+b0 @!
+0A
+b0 A!
+1B
+b0 B!
+zC
+b0 C!
+0D
+b0 D!
+1E
+bx E!
+0F
+b0 F!
+b0 G
+b0 G!
+b0 H
+b0 H!
+b0 I
+bx I!
+b0 J
+bx J!
+0K
+bx K!
+0L
+b0 L!
+b0 M
+b0 M!
+b0 N
+b0 N!
+0O
+b11111111111111111111111111111111 O!
+0P
+bx P!
+1Q
+bx Q!
+b0 R
+bx R!
+b0 S
+bx S!
+b0 T
+bx T!
+1U
+bx U!
+1V
+bx V!
+0W
+bx W!
+0X
+bx X!
+1Y
+bx Y!
+0Z
+bx Z!
+1[
+b0 \
+b0 ]
+b0 ^
+b0 _
+b0 `
+bx a
+b0 b
+b0 c
+b0 d
+bx e
+bx f
+bx g
+b0 h
+b0 i
+b0 j
+b11111111111111111111111111111111 k
+1l
+b0 m
+b0 n
+b0 o
+0p
+0q
+0r
+0s
+b0 t
+b1101100011 u
+b0 v
+0w
+b0 x
+b0 y
+b0 z
+0{
+0|
+b111 }
+1~
+$end
+
+#5000
+1!
+b1 4
+15
+
+#10000
+0!
+05
+
+#15000
+1!
+b10 4
+15
+
+#20000
+0!
+05
+
+#25000
+1!
+b11 4
+15
+
+#30000
+0!
+05
+
+#35000
+1!
+b100 4
+15
+
+#40000
+0!
+05
+
+#45000
+1!
+b101 4
+15
+
+#50000
+0!
+05
+
+#55000
+1!
+b110 4
+15
+
+#60000
+0!
+05
+
+#65000
+1!
+b111 4
+15
+
+#70000
+0!
+05
+
+#75000
+1!
+b1000 4
+15
+
+#80000
+0!
+05
+
+#85000
+1!
+b1001 4
+15
+
+#90000
+0!
+05
+
+#95000
+1!
+b1010 4
+15
+
+#100000
+0!
+1"
+05
+16
+
+#105000
+1!
+b1101100011 %!
+b1011 4
+15
+b1101100011 t
+
+#110000
+0!
+05
+
+#115000
+1!
+b1100 4
+15
+
+#120000
+0!
+05
+
+#125000
+1!
+b1101 4
+15
+
+#130000
+0!
+05
+
+#135000
+1!
+b1110 4
+15
+
+#140000
+0!
+05
+
+#145000
+1!
+b1111 4
+15
+
+#150000
+0!
+05
+
+#155000
+1!
+b10000 4
+15
+
+#160000
+0!
+05
+
+#165000
+1!
+b10001 4
+15
+
+#170000
+0!
+05
+
+#175000
+1!
+b10010 4
+15
+
+#180000
+0!
+05
+
+#185000
+1!
+b10011 4
+15
+
+#190000
+0!
+05
+
+#195000
+1!
+b10100 4
+15
+
+#200000
+0!
+05
+
+#205000
+1!
+b10101 4
+15
+
+#210000
+0!
+05
+
+#215000
+1!
+b10110 4
+15
+
+#220000
+0!
+05
+
+#225000
+1!
+b10111 4
+15
+
+#230000
+0!
+05
+
+#235000
+1!
+b11000 4
+15
+
+#240000
+0!
+05
+
+#245000
+1!
+b11001 4
+15
+
+#250000
+0!
+05
+
+#255000
+1!
+b11010 4
+15
+
+#260000
+0!
+05
+
+#265000
+1!
+b11011 4
+15
+
+#270000
+0!
+05
+
+#275000
+1!
+b11100 4
+15
+
+#280000
+0!
+05
+
+#285000
+1!
+b11101 4
+15
+
+#290000
+0!
+05
+
+#295000
+1!
+b11110 4
+15
+
+#300000
+0!
+05
+
+#305000
+1!
+b11111 4
+15
+
+#310000
+0!
+05
+
+#315000
+1!
+b100000 4
+15
+
+#320000
+0!
+05
+
+#325000
+1!
+b100001 4
+15
+
+#330000
+0!
+05
+
+#335000
+1!
+b100010 4
+15
+
+#340000
+0!
+05
+
+#345000
+1!
+b100011 4
+15
+
+#350000
+0!
+05
+
+#355000
+1!
+b100100 4
+15
+
+#360000
+0!
+05
+
+#365000
+1!
+b100101 4
+15
+
+#370000
+0!
+05
+
+#375000
+1!
+b100110 4
+15
+
+#380000
+0!
+05
+
+#385000
+1!
+b100111 4
+15
+
+#390000
+0!
+05
+
+#395000
+1!
+b101000 4
+15
+
+#400000
+0!
+05
+
+#405000
+1!
+b101001 4
+15
+
+#410000
+0!
+05
+
+#415000
+1!
+b101010 4
+15
+
+#420000
+0!
+05
+
+#425000
+1!
+b101011 4
+15
+
+#430000
+0!
+05
+
+#435000
+1!
+b101100 4
+15
+
+#440000
+0!
+05
+
+#445000
+1!
+b101101 4
+15
+
+#450000
+0!
+05
+
+#455000
+1!
+b101110 4
+15
+
+#460000
+0!
+05
+
+#465000
+1!
+b101111 4
+15
+
+#470000
+0!
+05
+
+#475000
+1!
+b110000 4
+15
+
+#480000
+0!
+05
+
+#485000
+1!
+b110001 4
+15
+
+#490000
+0!
+05
+
+#495000
+1!
+b110010 4
+15
+
+#500000
+0!
+05
+
+#505000
+1!
+b110011 4
+15
+
+#510000
+0!
+05
+
+#515000
+1!
+b110100 4
+15
+
+#520000
+0!
+05
+
+#525000
+1!
+b110101 4
+15
+
+#530000
+0!
+05
+
+#535000
+1!
+b110110 4
+15
+
+#540000
+0!
+05
+
+#545000
+1!
+b110111 4
+15
+
+#550000
+0!
+05
+
+#555000
+1!
+b111000 4
+15
+
+#560000
+0!
+05
+
+#565000
+1!
+b111001 4
+15
+
+#570000
+0!
+05
+
+#575000
+1!
+b111010 4
+15
+
+#580000
+0!
+05
+
+#585000
+1!
+b111011 4
+15
+
+#590000
+0!
+05
+
+#595000
+1!
+b111100 4
+15
+
+#600000
+0!
+05
+
+#605000
+1!
+b111101 4
+15
+
+#610000
+0!
+05
+
+#615000
+1!
+b111110 4
+15
+
+#620000
+0!
+05
+
+#625000
+1!
+b111111 4
+15
+
+#630000
+0!
+05
+
+#635000
+1!
+b1000000 4
+15
+
+#640000
+0!
+05
+
+#645000
+1!
+b1000001 4
+15
+
+#650000
+0!
+05
+
+#655000
+1!
+b1000010 4
+15
+
+#660000
+0!
+05
+
+#665000
+1!
+b1000011 4
+15
+
+#670000
+0!
+05
+
+#675000
+1!
+b1000100 4
+15
+
+#680000
+0!
+05
+
+#685000
+1!
+b1000101 4
+15
+
+#690000
+0!
+05
+
+#695000
+1!
+b1000110 4
+15
+
+#700000
+0!
+05
+
+#705000
+1!
+b1000111 4
+15
+
+#710000
+0!
+05
+
+#715000
+1!
+b1001000 4
+15
+
+#720000
+0!
+05
+
+#725000
+1!
+b1001001 4
+15
+
+#730000
+0!
+05
+
+#735000
+1!
+b1001010 4
+15
+
+#740000
+0!
+05
+
+#745000
+1!
+b1001011 4
+15
+
+#750000
+0!
+05
+
+#755000
+1!
+b1001100 4
+15
+
+#760000
+0!
+05
+
+#765000
+1!
+b1001101 4
+15
+
+#770000
+0!
+05
+
+#775000
+1!
+b1001110 4
+15
+
+#780000
+0!
+05
+
+#785000
+1!
+b1001111 4
+15
+
+#790000
+0!
+05
+
+#795000
+1!
+b1010000 4
+15
+
+#800000
+0!
+05
+
+#805000
+1!
+b1010001 4
+15
+
+#810000
+0!
+05
+
+#815000
+1!
+b1010010 4
+15
+
+#820000
+0!
+05
+
+#825000
+1!
+b1010011 4
+15
+
+#830000
+0!
+05
+
+#835000
+1!
+b1010100 4
+15
+
+#840000
+0!
+05
+
+#845000
+1!
+b1010101 4
+15
+
+#850000
+0!
+05
+
+#855000
+1!
+b1010110 4
+15
+
+#860000
+0!
+05
+
+#865000
+1!
+b1010111 4
+15
+
+#870000
+0!
+05
+
+#875000
+1!
+b1011000 4
+15
+
+#880000
+0!
+05
+
+#885000
+1!
+b1011001 4
+15
+
+#890000
+0!
+05
+
+#895000
+1!
+b1011010 4
+15
+
+#900000
+0!
+05
+
+#905000
+1!
+b1011011 4
+15
+
+#910000
+0!
+05
+
+#915000
+1!
+b1011100 4
+15
+
+#920000
+0!
+05
+
+#925000
+1!
+b1011101 4
+15
+
+#930000
+0!
+05
+
+#935000
+1!
+b1011110 4
+15
+
+#940000
+0!
+05
+
+#945000
+1!
+b1011111 4
+15
+
+#950000
+0!
+05
+
+#955000
+1!
+b1100000 4
+15
+
+#960000
+0!
+05
+
+#965000
+1!
+b1100001 4
+15
+
+#970000
+0!
+05
+
+#975000
+1!
+b1100010 4
+15
+
+#980000
+0!
+05
+
+#985000
+1!
+b1100011 4
+15
+
+#990000
+0!
+05
+
+#995000
+1!
+b1100100 4
+15
+
+#1000000
+0!
+05
