@@ -11,7 +11,6 @@ Dự án này cung cấp một bộ điều khiển UART (Universal Asynchronous
     * RX sử dụng bộ đồng bộ hóa 2 tầng (2-stage synchronizer) để chống hiện tượng Metastability.
     * Oversampling (lấy mẫu dư) 16 lần để đảm bảo bắt dữ liệu chính xác.
 * **Phát hiện lỗi:** Hỗ trợ phát hiện lỗi Frame (Frame Error) và lỗi Timeout.
-* **Thống kê (Statistics):** Tích hợp sẵn bộ đếm số byte đã truyền/nhận và số lượng lỗi phát sinh.
 * **Giao diện AXI4-Lite:** Có sẵn module `axi_ctrl.v` để bọc (wrap) core UART, cho phép giao tiếp dễ dàng với vi xử lý qua bus AXI.
 
 ## 📂 Cấu Trúc File
