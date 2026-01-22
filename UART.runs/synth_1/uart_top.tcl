@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "E:/GITHUB_PROJECT/UART/UART.runs/synth_1/uart_top.tcl"
+  variable script "D:/GITHUB_PROJECT/UART/UART.runs/synth_1/uart_top.tcl"
   variable category "vivado_synth"
 }
 
@@ -56,27 +56,34 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 4
+set_param checkpoint.writeSynthRtdsInDcp 1
+set_param synth.incrementalSynthesisCache C:/Users/Sang/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-20420-MinhSang/incrSyn
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
-create_project -in_memory -part xc7k70tfbv676-1
+create_project -in_memory -part xc7z020clg400-1
 
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir E:/GITHUB_PROJECT/UART/UART.cache/wt [current_project]
-set_property parent.project_path E:/GITHUB_PROJECT/UART/UART.xpr [current_project]
+set_property webtalk.parent_dir D:/GITHUB_PROJECT/UART/UART.cache/wt [current_project]
+set_property parent.project_path D:/GITHUB_PROJECT/UART/UART.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo e:/GITHUB_PROJECT/UART/UART.cache/ip [current_project]
+set_property board_part_repo_paths {C:/Users/Sang/AppData/Roaming/Xilinx/Vivado/2024.1/xhub/board_store/xilinx_board_store} [current_project]
+set_property board_part digilentinc.com:arty-z7-20:part0:1.1 [current_project]
+set_property ip_output_repo d:/GITHUB_PROJECT/UART/UART.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/FIFO.v
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/UART_RX.v
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/UART_TX.v
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/baudrate_gen.v
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/sync_cell.v
-  E:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/uart_top.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/FIFO.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/UART_RX.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/UART_TX.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/baudrate_gen.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/sync_cell.v
+  D:/GITHUB_PROJECT/UART/UART.srcs/sources_1/new/uart_top.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -87,11 +94,16 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc D:/GITHUB_PROJECT/UART/UART.srcs/constrs_1/new/arty-z7.xdc
+set_property used_in_implementation false [get_files D:/GITHUB_PROJECT/UART/UART.srcs/constrs_1/new/arty-z7.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental D:/GITHUB_PROJECT/UART/UART.srcs/utils_1/imports/synth_1/uart_top.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top uart_top -part xc7k70tfbv676-1
+synth_design -top uart_top -part xc7z020clg400-1
 OPTRACE "synth_design" END { }
 if { [get_msg_config -count -severity {CRITICAL WARNING}] > 0 } {
  send_msg_id runtcl-6 info "Synthesis results are not added to the cache due to CRITICAL_WARNING"

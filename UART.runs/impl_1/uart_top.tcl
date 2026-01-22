@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "E:/GITHUB_PROJECT/UART/UART.runs/impl_1/uart_top.tcl"
+  variable script "D:/GITHUB_PROJECT/UART/UART.runs/impl_1/uart_top.tcl"
   variable category "vivado_impl"
 }
 
@@ -97,6 +97,8 @@ proc step_failed { step } {
 OPTRACE "impl_1" END { }
 }
 
+set_msg_config -id {Synth 8-256} -limit 10000
+set_msg_config -id {Synth 8-638} -limit 10000
 
 OPTRACE "impl_1" START { ROLLUP_1 }
 OPTRACE "Phase: Init Design" START { ROLLUP_AUTO }
@@ -105,27 +107,32 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 4
+  set_param checkpoint.writeSynthRtdsInDcp 1
+  set_param synth.incrementalSynthesisCache C:/Users/Sang/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-20420-MinhSang/incrSyn
   set_param runs.launchOptions { -jobs 12  }
 OPTRACE "create in-memory project" START { }
-  create_project -in_memory -part xc7k70tfbv676-1
+  create_project -in_memory -part xc7z020clg400-1
+  set_property board_part_repo_paths {C:/Users/Sang/AppData/Roaming/Xilinx/Vivado/2024.1/xhub/board_store/xilinx_board_store} [current_project]
+  set_property board_part digilentinc.com:arty-z7-20:part0:1.1 [current_project]
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir E:/GITHUB_PROJECT/UART/UART.cache/wt [current_project]
-  set_property parent.project_path E:/GITHUB_PROJECT/UART/UART.xpr [current_project]
-  set_property ip_output_repo E:/GITHUB_PROJECT/UART/UART.cache/ip [current_project]
+  set_property webtalk.parent_dir D:/GITHUB_PROJECT/UART/UART.cache/wt [current_project]
+  set_property parent.project_path D:/GITHUB_PROJECT/UART/UART.xpr [current_project]
+  set_property ip_output_repo D:/GITHUB_PROJECT/UART/UART.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet E:/GITHUB_PROJECT/UART/UART.runs/synth_1/uart_top.dcp
+  add_files -quiet D:/GITHUB_PROJECT/UART/UART.runs/synth_1/uart_top.dcp
 OPTRACE "read constraints: implementation" START { }
+  read_xdc D:/GITHUB_PROJECT/UART/UART.srcs/constrs_1/new/arty-z7.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
-  link_design -top uart_top -part xc7k70tfbv676-1 
+  link_design -top uart_top -part xc7z020clg400-1 
 OPTRACE "link_design" END { }
 OPTRACE "gray box cells" START { }
 OPTRACE "gray box cells" END { }
@@ -275,34 +282,4 @@ OPTRACE "route_design write_checkpoint" END { }
 
 OPTRACE "route_design misc" END { }
 OPTRACE "Phase: Route Design" END { }
-OPTRACE "Phase: Write Bitstream" START { ROLLUP_AUTO }
-OPTRACE "write_bitstream setup" START { }
-start_step write_bitstream
-set ACTIVE_STEP write_bitstream
-set rc [catch {
-  create_msg_db write_bitstream.pb
-OPTRACE "read constraints: write_bitstream" START { }
-OPTRACE "read constraints: write_bitstream" END { }
-  catch { write_mem_info -force -no_partial_mmi uart_top.mmi }
-OPTRACE "write_bitstream setup" END { }
-OPTRACE "write_bitstream" START { }
-  write_bitstream -force uart_top.bit 
-OPTRACE "write_bitstream" END { }
-OPTRACE "write_bitstream misc" START { }
-OPTRACE "read constraints: write_bitstream_post" START { }
-OPTRACE "read constraints: write_bitstream_post" END { }
-  catch {write_debug_probes -quiet -force uart_top}
-  catch {file copy -force uart_top.ltx debug_nets.ltx}
-  close_msg_db -file write_bitstream.pb
-} RESULT]
-if {$rc} {
-  step_failed write_bitstream
-  return -code error $RESULT
-} else {
-  end_step write_bitstream
-  unset ACTIVE_STEP 
-}
-
-OPTRACE "write_bitstream misc" END { }
-OPTRACE "Phase: Write Bitstream" END { }
 OPTRACE "impl_1" END { }

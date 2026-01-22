@@ -1,52 +1,110 @@
 Time resolution is 1 ps
-=== UART Test Started ===
-[TEST 1] Reset
-[TEST 2] RX Test
-[TB] Sending: 0x12
-[TB] Sending: 0x34
-[TB] Sending: 0x56
-[TEST 3] TX Test
-[TX] Starting transmission, data=0x55
-[TX] Start bit sent, moving to DATA state
-[TX] Sent data bit 0 = 1
-[TX] Sent data bit 1 = 0
-[TX] Sent data bit 2 = 1
-[TX] Sent data bit 3 = 0
-[TX] Sent data bit 4 = 1
-[TX] Sent data bit 5 = 0
-[TX] Sent data bit 6 = 1
-[TX] All data bits sent, moving to PARITY state
-[TX] Parity bit sent = 0, moving to STOP state
-[TX] Sent stop bit 1
-[TX] All stop bits sent, transmission complete
-[TX] Starting transmission, data=0xaa
-[TX] Start bit sent, moving to DATA state
-[TX] Sent data bit 0 = 0
-[TX] Sent data bit 1 = 1
-[TX] Sent data bit 2 = 0
-[TX] Sent data bit 3 = 1
-[TX] Sent data bit 4 = 0
-[TX] Sent data bit 5 = 1
-[TX] Sent data bit 6 = 0
-[TX] All data bits sent, moving to PARITY state
-[TX] Parity bit sent = 0, moving to STOP state
-[TX] Sent stop bit 1
-[TX] All stop bits sent, transmission complete
-[TEST 4] Simultaneous Test
-[TX] Starting transmission, data=0xc0
-[TX] Start bit sent, moving to DATA state
-[TX] Sent data bit 0 = 0
-[TX] Sent data bit 1 = 0
-[TX] Sent data bit 2 = 0
-[TX] Sent data bit 3 = 0
-[TB] Sending: 0xd0
-[TX] Sent data bit 4 = 0
-[TX] Sent data bit 5 = 0
-[TX] Sent data bit 6 = 1
-[TX] All data bits sent, moving to PARITY state
-[TX] Parity bit sent = 0, moving to STOP state
-[TX] Sent stop bit 1
-[TX] All stop bits sent, transmission complete
-=== Test Complete ===
-Errors: 0
-$finish called at time : 1242356 ns : File "E:/GITHUB_PROJECT/UART/UART.srcs/sim_1/new/test_bench.v" Line 114
+[BAUD_GEN] INTERNAL_CLOCK = 125000000 Hz
+[BAUD_GEN] BAUD_RATE = 115200 bps
+[BAUD_GEN] TX_DIVISOR = 1085
+[BAUD_GEN] RX_DIVISOR = 68
+[BAUD_GEN] Actual TX Baud = 115207.4 bps
+[BAUD_GEN] Actual RX Baud = 114889.7 bps
+[BAUD_GEN] TX Period = 8680.0 ns
+[BAUD_GEN] RX Period = 544.0 ns
+=== UART System Test Started ===
+CLK_PERIOD: 8 ns, BIT_PERIOD: 8680 ns
+
+[TEST 1] Basic RX Test - Single Byte
+[TB] Sending RX: 0xa5 at time 1100000
+[PASS] RX Data: 0xa5 at time 100764000
+
+[TEST 2] Multiple RX Bytes
+[TB] Sending RX: 0x12 at time 235460000
+[PASS] RX Data: 0x12 at time 335228000
+[TB] Sending RX: 0x34 at time 469820000
+[PASS] RX Data: 0x34 at time 569692000
+[TB] Sending RX: 0x56 at time 704180000
+[PASS] RX Data: 0x56 at time 804156000
+
+[TEST 3] Back-to-Back RX
+[TB] Sending RX: 0x78 at time 938540000
+[PASS] RX Data: 0x78 at time 1038620000
+[TB] Sending RX: 0x9a at time 1042700000
+[PASS] RX Data: 0x9a at time 1142524000
+[TB] Sending RX: 0xbc at time 1146860000
+[PASS] RX Data: 0xbc at time 1246972000
+
+[TEST 4] Basic TX Test
+[TB] Sending TX: 0x55 at time 1598220000
+[TX MONITOR] Start bit detected at time 1598236000
+[PASS] TX Data: 0x55 at time 1698056000
+
+[TEST 5] Multiple TX Bytes
+[TB] Sending TX: 0xaa at time 1771828000
+[TX MONITOR] Start bit detected at time 1771844000
+[PASS] TX Data: 0xaa at time 1871664000
+[TB] Sending TX: 0xcc at time 1945436000
+[TX MONITOR] Start bit detected at time 1945452000
+[PASS] TX Data: 0xcc at time 2045272000
+
+[TEST 6] RX with CPU Backpressure
+[TB] Sending RX: 0xf0 at time 2119044000
+[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219100000
+[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219108000
+[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219116000
+[DEBUG] ... (suppressing further backpressure messages)
+[PASS] RX Data: 0xf0 at time 2396804000
+
+[TEST 7] Sequential RX and TX
+[TB] Sending TX: 0xc3 at time 2527004000
+[TX MONITOR] Start bit detected at time 2527020000
+[PASS] TX Data: 0xc3 at time 2626840000
+[TB] Sending RX: 0xd5 at time 2638828000
+[PASS] RX Data: 0xd5 at time 2738620000
+[TB] Sending TX: 0x3c at time 2769028000
+[TX MONITOR] Start bit detected at time 2769044000
+[PASS] TX Data: 0x3c at time 2868864000
+[TB] Sending RX: 0x5d at time 2881868000
+[PASS] RX Data: 0x5d at time 2981788000
+
+[TEST 8] FIFO Stress Test - Burst RX
+[TB] Sending RX: 0x24 at time 3055468000
+[PASS] RX Data: 0x24 at time 3155324000
+[TB] Sending RX: 0x81 at time 3263788000
+[PASS] RX Data: 0x81 at time 3363676000
+[TB] Sending RX: 0x09 at time 3472108000
+[PASS] RX Data: 0x09 at time 3572028000
+[TB] Sending RX: 0x63 at time 3680428000
+[PASS] RX Data: 0x63 at time 3780380000
+[TB] Sending RX: 0x0d at time 3888748000
+[PASS] RX Data: 0x0d at time 3988732000
+[TB] Sending RX: 0x8d at time 4097068000
+[PASS] RX Data: 0x8d at time 4197084000
+[TB] Sending RX: 0x65 at time 4305388000
+[PASS] RX Data: 0x65 at time 4405436000
+[TB] Sending RX: 0x12 at time 4513708000
+[PASS] RX Data: 0x12 at time 4613788000
+
+[TEST 9] TX Sequential Test
+[TB] Sending TX: 0x01 at time 4982428000
+[TX MONITOR] Start bit detected at time 4982444000
+[PASS] TX Data: 0x01 at time 5082264000
+[TB] Sending TX: 0x02 at time 5095268000
+[TX MONITOR] Start bit detected at time 5095284000
+[PASS] TX Data: 0x02 at time 5195104000
+[TB] Sending TX: 0x03 at time 5208108000
+[TX MONITOR] Start bit detected at time 5208124000
+[PASS] TX Data: 0x03 at time 5307944000
+[TB] Sending TX: 0x04 at time 5320948000
+[TX MONITOR] Start bit detected at time 5320964000
+[PASS] TX Data: 0x04 at time 5420784000
+[TB] Sending TX: 0x05 at time 5433788000
+[TX MONITOR] Start bit detected at time 5433804000
+[PASS] TX Data: 0x05 at time 5533624000
+[TB] Sending TX: 0x06 at time 5546628000
+[TX MONITOR] Start bit detected at time 5546644000
+[PASS] TX Data: 0x06 at time 5646464000
+[TB] Sending TX: 0x07 at time 5659468000
+[TX MONITOR] Start bit detected at time 5659484000
+[PASS] TX Data: 0x07 at time 5759304000
+[TB] Sending TX: 0x08 at time 5772308000
+[TX MONITOR] Start bit detected at time 5772324000
+[PASS] TX Data: 0x08 at time 5872144000
+
+===================
