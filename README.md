@@ -58,43 +58,9 @@ The UART module supports:
 
 ## 3. ARCHITECTURE
 
-### 3.1 Block Diagram
 
-```
-                    uart_top
-    ┌─────────────────────────────────────────────┐
-    │                                             │
-    │  ┌─────────────┐                            │
-    │  │  BAUD_GEN   │                            │
-    │  │  TX: 1x     │                            │
-    │  │  RX: 16x    │                            │
-    │  └──┬──────┬───┘                            │
-    │     │      │                                │
-    │     │      │                                │
-    │  ┌──▼──┐ ┌─▼──┐                            │
-    │  │ TX  │ │ RX │                            │
-    │  │PATH │ │PATH│                            │
-    │  └──┬──┘ └─┬──┘                            │
-    │     │      │                                │
-    │ CPU │FIFO  │FIFO  UART                      │
-    │  ├──▼──┐ ┌▼───┐ ┌─────┐                    │
-    │  │TX   │ │RX  │ │TX   │                    │
-    │  │FIFO │ │FIFO│ │ RX  │                    │
-    │  │16   │ │16  │ │LOGIC│                    │
-    │  └──┬──┘ └┬───┘ └─┬─┬─┘                    │
-    │     │     │       │ │                       │
-    │  ◄──┴──►◄─┴──►   │ │                       │
-    │   AXI-Stream     │ │                       │
-    │   Interface      │ │                       │
-    │                  │ │                       │
-    │                 TXD RXD                     │
-    └──────────────────┼─┼───────────────────────┘
-                       │ │
-                     Physical
-                     UART Lines
-```
 
-### 3.2 Module Hierarchy
+### 3.1 Module Hierarchy
 
 ```
 uart_top
