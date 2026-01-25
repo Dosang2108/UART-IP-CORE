@@ -58,43 +58,9 @@ The UART module supports:
 
 ## 3. ARCHITECTURE
 
-### 3.1 Block Diagram
 
-```
-                    uart_top
-    ┌─────────────────────────────────────────────┐
-    │                                             │
-    │  ┌─────────────┐                            │
-    │  │  BAUD_GEN   │                            │
-    │  │  TX: 1x     │                            │
-    │  │  RX: 16x    │                            │
-    │  └──┬──────┬───┘                            │
-    │     │      │                                │
-    │     │      │                                │
-    │  ┌──▼──┐ ┌─▼──┐                            │
-    │  │ TX  │ │ RX │                            │
-    │  │PATH │ │PATH│                            │
-    │  └──┬──┘ └─┬──┘                            │
-    │     │      │                                │
-    │ CPU │FIFO  │FIFO  UART                      │
-    │  ├──▼──┐ ┌▼───┐ ┌─────┐                    │
-    │  │TX   │ │RX  │ │TX   │                    │
-    │  │FIFO │ │FIFO│ │ RX  │                    │
-    │  │16   │ │16  │ │LOGIC│                    │
-    │  └──┬──┘ └┬───┘ └─┬─┬─┘                    │
-    │     │     │       │ │                       │
-    │  ◄──┴──►◄─┴──►   │ │                       │
-    │   AXI-Stream     │ │                       │
-    │   Interface      │ │                       │
-    │                  │ │                       │
-    │                 TXD RXD                     │
-    └──────────────────┼─┼───────────────────────┘
-                       │ │
-                     Physical
-                     UART Lines
-```
 
-### 3.2 Module Hierarchy
+### 3.1 Module Hierarchy
 
 ```
 uart_top
@@ -436,68 +402,6 @@ Duration:    1bit  8bits    1bit    2bits
 - RX: CPU must service FIFO to prevent data loss
 - No automatic recovery
 
----
-
-## 10. USAGE GUIDELINES
-
-### 10.1 Initialization Sequence
-
-```c
-1. Assert rst_n = 0 for minimum 100ns
-2. Deassert rst_n = 1
-3. Wait for 1ms (FIFO initialization)
-4. Begin normal operation
-```
-
-### 10.2 Transmit Example (Blocking)
-
-```c
-void uart_send_byte(uint8_t data) {
-    // Wait for FIFO ready
-    while (!cpu_tx_ready);
-    
-    // Write data
-    cpu_tx_data = data;
-    cpu_tx_valid = 1;
-    
-    // Wait 1 clock
-    wait_clock();
-    
-    // Deassert valid
-    cpu_tx_valid = 0;
-}
-```
-
-### 10.3 Receive Example (Polling)
-
-```c
-uint8_t uart_recv_byte(void) {
-    // Wait for data available
-    while (!cpu_rx_valid);
-    
-    // Read data
-    uint8_t data = cpu_rx_data;
-    
-    // Assert ready for 1 clock
-    cpu_rx_ready = 1;
-    wait_clock();
-    cpu_rx_ready = 0;
-    
-    return data;
-}
-```
-
-### 10.4 Error Checking
-
-```c
-if (frame_error) {
-    // Discard received byte
-    cpu_rx_ready = 1;  // Flush FIFO
-    wait_clock();
-    cpu_rx_ready = 0;
-    error_count++;
-}
-```
 
 ---
 
@@ -558,55 +462,8 @@ BIT_PERIOD = 8680ns    // Calculated
 TEST_TIMEOUT = 50ms    // Per test
 ```
 
----
 
-## 13. COMPLIANCE & STANDARDS
 
-### 13.1 UART Standard Compliance
-
-| Standard | Compliance | Notes |
-|----------|------------|-------|
-| **RS-232 (Logical)** | ✅ Full | Frame format compatible |
-| **RS-232 (Electrical)** | ❌ N/A | Requires external transceiver |
-| **3.3V TTL** | ✅ Full | Direct FPGA I/O compatible |
-
-### 13.2 AXI-Stream Compliance
-
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| Valid/Ready handshake | ✅ | Full compliance |
-| No combinational paths | ✅ | Registered outputs |
-| Reset behavior | ✅ | Async reset, sync deassert |
-
----
-
-## 14. KNOWN LIMITATIONS
-
-### 14.1 Current Limitations
-
-1. **Fixed Baud Rate:** Compile-time only, no runtime change
-2. **No Interrupts:** CPU must poll status
-3. **No Flow Control:** No RTS/CTS hardware support
-4. **Single Channel:** One TX/RX pair only
-5. **Timeout Not Configurable:** Fixed at 20 character times
-
-### 14.2 Future Enhancements
-
-- [ ] Runtime baud rate configuration
-- [ ] Interrupt generation (TX empty, RX full, errors)
-- [ ] Hardware flow control (RTS/CTS)
-- [ ] DMA interface support
-- [ ] Break detection/generation
-- [ ] Configurable timeout
-- [ ] Loopback test mode
-
----
-
-## 15. REVISION HISTORY
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-01-22 | Initial | First release with critical fixes |
 
 ---
 
@@ -665,16 +522,6 @@ Clock Skew:                ~0.30 ns
 Margin:                    ~5.20 ns (65%)
 ```
 
-### A.3 Power Estimation
 
-```
-Dynamic Power @ 125 MHz, 115.2 kbps:
-  Logic:          ~5 mW
-  Clock:          ~8 mW
-  I/O:            ~2 mW
-  Total:         ~15 mW
-```
-
----
 
 **End of Document**
