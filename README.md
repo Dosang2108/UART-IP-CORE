@@ -333,44 +333,6 @@ Duration:    1bit  8bits    1bit    2bits
 
 ---
 
-## 8. PERFORMANCE SPECIFICATIONS
-
-### 8.1 Throughput
-
-| Configuration | Bits/Frame | Frame Time | Throughput |
-|---------------|------------|------------|------------|
-| 8N1 | 10 | 86.8 μs | 11,520 B/s |
-| 8N2 | 11 | 95.5 μs | 10,472 B/s |
-| 8E1 | 11 | 95.5 μs | 10,472 B/s |
-| **8E2** (default) | **12** | **104.2 μs** | **9,600 B/s** |
-
-### 8.2 Latency
-
-| Path | Min Latency | Max Latency | Notes |
-|------|-------------|-------------|-------|
-| CPU → TXD | 104 μs | 1.77 ms | FIFO empty / full |
-| RXD → CPU | 104 μs | 1.77 ms | Direct / FIFO full |
-| TX FIFO write | 1 clock | 1 clock | 8 ns @ 125 MHz |
-| RX FIFO read | 1 clock | 1 clock | 8 ns @ 125 MHz |
-
-### 8.3 Clock Domain
-
-| Domain | Frequency | Period | Source |
-|--------|-----------|--------|--------|
-| System | 125 MHz | 8 ns | Input clock |
-| TX Baud | 115.2 kHz | 8.68 μs | Generated (÷1085) |
-| RX Baud | 1.8432 MHz | 0.544 μs | Generated (÷68) |
-
-### 8.4 Resource Utilization (Estimated)
-
-| Resource | Quantity | Notes |
-|----------|----------|-------|
-| LUTs | ~200 | Combinational logic |
-| FFs | ~150 | Sequential elements |
-| BRAM | 0 | FIFOs use distributed RAM |
-| DSP | 0 | No multipliers needed |
-
----
 
 ## 9. ERROR HANDLING
 
