@@ -1,35 +1,113 @@
-## This file is a general .xdc for the ARTY Z7-20 Rev.B
-## To use it in a project:
-## - uncomment the lines corresponding to used pins
-## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
+## ========================================
+## UART Test Configuration for ARTY Z7-20
+## ========================================
+## Board: Digilent Arty Z7-20
+## FPGA: Zynq-7020 (xc7z020clg400-1)
+## Clock: 125 MHz
+## UART: 115200 baud, 8N1, 2 stop bits
 
-## Clock Signal
+## ========================================
+## Clock Signal - 125 MHz
+## ========================================
 set_property -dict { PACKAGE_PIN H16    IOSTANDARD LVCMOS33 } [get_ports { clk }]; #IO_L13P_T2_MRCC_35 Sch=SYSCLK
-create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports { clk }];#set
+create_clock -add -name sys_clk_pin -period 8.00 -waveform {0 4} [get_ports { clk }]; # 125 MHz = 8ns period
 
-## Switches
+## ========================================
+## Reset - Active Low (SW0)
+## ========================================
 set_property -dict { PACKAGE_PIN M20    IOSTANDARD LVCMOS33 } [get_ports { rst_n }]; #IO_L7N_T1_AD2N_35 Sch=SW0
-#set_property -dict { PACKAGE_PIN M19    IOSTANDARD LVCMOS33 } [get_ports { sw[1] }]; #IO_L7P_T1_AD2P_35 Sch=SW1
 
-## RGB LEDs
-#set_property -dict { PACKAGE_PIN L15    IOSTANDARD LVCMOS33 } [get_ports { led4_b }]; #IO_L22N_T3_AD7P_35 Sch=LED4_B
-#set_property -dict { PACKAGE_PIN G17    IOSTANDARD LVCMOS33 } [get_ports { led4_g }]; #IO_L16P_T2_35 Sch=LED4_G
-#set_property -dict { PACKAGE_PIN N15    IOSTANDARD LVCMOS33 } [get_ports { led4_r }]; #IO_L21P_T3_DQS_AD14P_35 Sch=LED4_R
-#set_property -dict { PACKAGE_PIN G14    IOSTANDARD LVCMOS33 } [get_ports { led5_b }]; #IO_0_35 Sch=LED5_B
-#set_property -dict { PACKAGE_PIN L14    IOSTANDARD LVCMOS33 } [get_ports { led5_g }]; #IO_L22P_T3_AD7P_35 Sch=LED5_G
-#set_property -dict { PACKAGE_PIN M15    IOSTANDARD LVCMOS33 } [get_ports { led5_r }]; #IO_L23N_T3_35 Sch=LED5_R
+## ========================================
+## UART Interface - USB-UART Bridge
+## ========================================
+## These pins connect to the FTDI USB-UART chip on the board
+set_property -dict { PACKAGE_PIN T14   IOSTANDARD LVCMOS33 } [get_ports { rxd }]; #IO_L5P_T0_34 Sch=CK_IO0 (UART RX from PC)
+set_property -dict { PACKAGE_PIN U12   IOSTANDARD LVCMOS33 } [get_ports { txd }]; #IO_L2N_T0_34 Sch=CK_IO1 (UART TX to PC)
 
-## LEDs
-# set_property -dict { PACKAGE_PIN R14    IOSTANDARD LVCMOS33 } [get_ports { tx_full }]; #IO_L6N_T0_VREF_34 Sch=LED0
-# set_property -dict { PACKAGE_PIN P14    IOSTANDARD LVCMOS33 } [get_ports { rx_empty }]; #IO_L6P_T0_34 Sch=LED1
-#set_property -dict { PACKAGE_PIN N16    IOSTANDARD LVCMOS33 } [get_ports { led[2] }]; #IO_L21N_T3_DQS_AD14N_35 Sch=LED2
-#set_property -dict { PACKAGE_PIN M14    IOSTANDARD LVCMOS33 } [get_ports { led[3] }]; #IO_L23P_T3_35 Sch=LED3
+## ========================================
+## Status LEDs
+## ========================================
+## LED0: TX FIFO Full
+## LED1: RX FIFO Empty  
+## LED2: Frame Error
+## LED3: TX Busy
+set_property -dict { PACKAGE_PIN R14    IOSTANDARD LVCMOS33 } [get_ports { tx_fifo_full }]; #IO_L6N_T0_VREF_34 Sch=LED0
+set_property -dict { PACKAGE_PIN P14    IOSTANDARD LVCMOS33 } [get_ports { rx_fifo_empty }]; #IO_L6P_T0_34 Sch=LED1
+set_property -dict { PACKAGE_PIN N16    IOSTANDARD LVCMOS33 } [get_ports { frame_error }]; #IO_L21N_T3_DQS_AD14N_35 Sch=LED2
+set_property -dict { PACKAGE_PIN M14    IOSTANDARD LVCMOS33 } [get_ports { tx_busy }]; #IO_L23P_T3_35 Sch=LED3
 
-## Buttons
-# set_property -dict { PACKAGE_PIN D19    IOSTANDARD LVCMOS33 } [get_ports { btn }]; #IO_L4P_T0_35 Sch=BTN0
-# set_property -dict { PACKAGE_PIN D20    IOSTANDARD LVCMOS33 } [get_ports { btn2 }]; #IO_L4N_T0_35 Sch=BTN1
-#set_property -dict { PACKAGE_PIN L20    IOSTANDARD LVCMOS33 } [get_ports { btn[2] }]; #IO_L9N_T1_DQS_AD3N_35 Sch=BTN2
-#set_property -dict { PACKAGE_PIN L19    IOSTANDARD LVCMOS33 } [get_ports { btn[3] }]; #IO_L9P_T1_DQS_AD3P_35 Sch=BTN3
+## ========================================
+## Optional Status Outputs (if needed)
+## ========================================
+## Uncomment these if your design has these ports
+# set_property -dict { PACKAGE_PIN L15    IOSTANDARD LVCMOS33 } [get_ports { tx_fifo_empty }]; #IO_L22N_T3_AD7P_35 Sch=LED4_B
+# set_property -dict { PACKAGE_PIN G17    IOSTANDARD LVCMOS33 } [get_ports { rx_busy }]; #IO_L16P_T2_35 Sch=LED4_G
+# set_property -dict { PACKAGE_PIN N15    IOSTANDARD LVCMOS33 } [get_ports { timeout_error }]; #IO_L21P_T3_DQS_AD14P_35 Sch=LED4_R
+
+## ========================================
+## Test Control Signals (Optional)
+## ========================================
+## Buttons for manual testing
+# set_property -dict { PACKAGE_PIN D19    IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_valid }]; #IO_L4P_T0_35 Sch=BTN0
+# set_property -dict { PACKAGE_PIN D20    IOSTANDARD LVCMOS33 } [get_ports { cpu_rx_ready }]; #IO_L4N_T0_35 Sch=BTN1
+
+## ========================================
+## CPU Interface Test Signals (for ILA/Debug)
+## ========================================
+## These can be connected to ChipKit headers for logic analyzer
+## Uncomment if you want to probe these signals externally
+# set_property -dict { PACKAGE_PIN Y18   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[0] }]; #JA1_P
+# set_property -dict { PACKAGE_PIN Y19   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[1] }]; #JA1_N
+# set_property -dict { PACKAGE_PIN Y16   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[2] }]; #JA2_P
+# set_property -dict { PACKAGE_PIN Y17   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[3] }]; #JA2_N
+# set_property -dict { PACKAGE_PIN U18   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[4] }]; #JA3_P
+# set_property -dict { PACKAGE_PIN U19   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[5] }]; #JA3_N
+# set_property -dict { PACKAGE_PIN W18   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[6] }]; #JA4_P
+# set_property -dict { PACKAGE_PIN W19   IOSTANDARD LVCMOS33 } [get_ports { cpu_tx_data[7] }]; #JA4_N
+
+## ========================================
+## Configuration Properties
+## ========================================
+## Set configuration mode
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 3.3 [current_design]
+
+## ========================================
+## Timing Constraints for UART
+## ========================================
+## UART signals are asynchronous, so we need to handle CDC properly
+## RXD input is already synchronized in the design (3-stage sync)
+
+## ========================================
+## CPU Interface Signals - Set IOSTANDARD (no physical pins assigned)
+## ========================================
+## These signals don't have PACKAGE_PIN assigned, so they won't be routed to physical pins
+## But we must specify IOSTANDARD to pass DRC checks
+set_property IOSTANDARD LVCMOS33 [get_ports {cpu_tx_data[*]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {cpu_rx_data[*]}]
+set_property IOSTANDARD LVCMOS33 [get_ports cpu_tx_valid]
+set_property IOSTANDARD LVCMOS33 [get_ports cpu_tx_ready]
+set_property IOSTANDARD LVCMOS33 [get_ports cpu_rx_valid]
+set_property IOSTANDARD LVCMOS33 [get_ports cpu_rx_ready]
+set_property IOSTANDARD LVCMOS33 [get_ports tx_fifo_empty]
+set_property IOSTANDARD LVCMOS33 [get_ports rx_busy]
+set_property IOSTANDARD LVCMOS33 [get_ports timeout_error]
+
+## Set false path for asynchronous reset
+set_false_path -from [get_ports rst_n] -to [all_registers]
+
+## Set false path for UART RX input (async external signal)
+set_false_path -from [get_ports rxd] -to [all_registers]
+
+## ========================================
+## Bitstream Settings
+## ========================================
+## Compress bitstream for faster download
+set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
+
+## ========================================
+## End of XDC
+## ========================================
 
 ## Pmod Header JA
 #set_property -dict { PACKAGE_PIN Y18   IOSTANDARD LVCMOS33 } [get_ports { ja_p[1] }]; #IO_L17P_T2_34 Sch=JA1_P (Pin 1)

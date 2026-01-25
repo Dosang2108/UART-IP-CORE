@@ -137,7 +137,6 @@ module uart_system_tb;
             // NOTE: Start bit negedge already detected by caller (forever loop)
             // We are now AT the start bit falling edge
             $display("[TX MONITOR] Start bit detected at time %0t", $time);
-            
             // Wait to middle of start bit
             #(BIT_PERIOD/2);
             if (txd !== 0) begin
@@ -146,17 +145,14 @@ module uart_system_tb;
                 data = 8'hXX;
                 disable receive_block;
             end
-            
             // Sample 8 data bits at their centers
             for (i = 0; i < 8; i = i + 1) begin
                 #BIT_PERIOD;        // Move to center of next bit
                 data[i] = txd;      // Sample
             end
-            
             // Sample parity bit at center
             #BIT_PERIOD;
             tx_parity_bit = txd;
-            
             // Check parity (even parity: XOR of all data bits)
             if (tx_parity_bit !== (^data)) begin
                 $display("[FAIL] TX Parity error: Got %b, Expected %b for data 0x%02h at time %0t", 
@@ -285,7 +281,7 @@ module uart_system_tb;
         #100; 
         rst_n = 1; 
         #1000;
-        
+
         // TEST 1: Basic RX
         test_step = 1; 
         $display("\n[TEST 1] Basic RX Test - Single Byte");
@@ -339,23 +335,18 @@ module uart_system_tb;
         test_step = 7;
         $display("\n[TEST 7] Sequential RX and TX");
         cpu_rx_ready = 1;
-        
         // Send TX byte and wait for it to complete
         cpu_send_byte(8'hC3);
         wait_tx_complete;
-        
         // Send RX byte
         uart_send_byte(8'hD5);
         #(BIT_PERIOD*3);  // Wait for RX to complete
-        
         // Send another TX byte
         cpu_send_byte(8'h3C);
         wait_tx_complete;
-        
         // Send another RX byte  
         uart_send_byte(8'h5D);
         #(BIT_PERIOD*3);  // Wait for RX to complete
-        
         #(BIT_PERIOD*5);
         
         // TEST 8: FIFO stress test

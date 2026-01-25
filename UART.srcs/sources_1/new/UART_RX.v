@@ -22,16 +22,12 @@ module uart_rx #(
     output wire                     timeout_error
 );
     
-    // =========================================================================
     // CONFIGURATION PARAMETERS
-    // =========================================================================
     localparam integer DATA_WIDTH_SELECT = 8;
     localparam integer PARITY_SELECT     = 1;      // 1: Enable parity
     localparam integer STOP_BIT_SELECT   = 2;      // 2 stop bits
     
-    // =========================================================================
     // STATE DEFINITIONS
-    // =========================================================================
     localparam [1:0] IDLE_STATE  = 2'b00;
     localparam [1:0] RECV_STATE  = 2'b01;
     localparam [1:0] ERROR_STATE = 2'b10;
@@ -41,9 +37,7 @@ module uart_rx #(
     localparam [1:0] PARITY_STATE    = 2'b10;
     localparam [1:0] STOP_STATE      = 2'b11;
     
-    // =========================================================================
     // INTERNAL REGISTERS
-    // =========================================================================
     reg [1:0] rx_state            = IDLE_STATE;
     reg [1:0] transaction_state   = START_BIT_STATE;
     
@@ -63,9 +57,7 @@ module uart_rx #(
     
     reg [7:0] timeout_counter     = 'b0;
     
-    // =========================================================================
     // INPUT SYNCHRONIZATION (3-stage for metastability)
-    // =========================================================================
     (* ASYNC_REG = "TRUE" *) reg [2:0] rx_sync = 3'b111;
     
     always @(posedge clk) begin
@@ -78,9 +70,7 @@ module uart_rx #(
     
     wire rx_stable = rx_sync[2];
     
-    // =========================================================================
     // BAUD RATE SAMPLING
-    // =========================================================================
     wire sample_enable = (oversample_counter == 4'd7);  // Sample at middle
     
     always @(posedge clk or negedge rst_n) begin
@@ -97,11 +87,8 @@ module uart_rx #(
         end
     end
     
-    // =========================================================================
     // START BIT DETECTION
-    // =========================================================================
     reg rx_prev = 1'b1;
-    
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             rx_prev <= 1'b1;
@@ -109,12 +96,9 @@ module uart_rx #(
             rx_prev <= rx_stable;
         end
     end
-    
     wire start_bit_detected = (rx_prev == 1'b1) && (rx_stable == 1'b0);
-    
-    // =========================================================================
+
     // OUTPUT ASSIGNMENTS
-    // =========================================================================
     assign transaction_en = transaction_start_toggle ^ transaction_stop_toggle;
     assign data_out_rx    = rx_buffer;
     assign fifo_wr        = fifo_wr_reg;
@@ -139,17 +123,14 @@ module uart_rx #(
             fifo_wr_reg       <= 1'b0;
             frame_error_reg   <= 1'b0;
             timeout_error_reg <= 1'b0;
-            
             case (rx_state)
                 IDLE_STATE: begin
-                    timeout_counter <= 'b0;
-                    
+                    timeout_counter <= 'b0; 
                     if (start_bit_detected) begin
                         rx_state <= RECV_STATE;
                         transaction_start_toggle <= ~transaction_start_toggle;
                     end
                 end
-                
                 RECV_STATE: begin
                     // Reset timeout counter on any activity
                     if (baudrate_clk_en) begin
@@ -162,7 +143,6 @@ module uart_rx #(
                     end else begin
                         timeout_counter <= timeout_counter + 1'b1;
                     end
-                    
                     // Transaction complete
                     if (!transaction_en) begin
                         rx_state <= IDLE_STATE;
@@ -170,18 +150,16 @@ module uart_rx #(
                         frame_error_reg <= parity_error | stop_bit_error;
                     end
                 end
-                
                 ERROR_STATE: begin
                     rx_state <= IDLE_STATE;
                 end
-                
                 default: begin
                     rx_state <= IDLE_STATE;
                 end
             endcase
         end
     end
-    
+
     // TRANSACTION STATE MACHINE (Bit-level)
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -208,10 +186,8 @@ module uart_rx #(
                                 transaction_stop_toggle <= transaction_start_toggle;
                             end
                         end
-                        
                         DATA_STATE: begin
-                            rx_buffer[data_counter] <= rx_stable;
-                            
+                            rx_buffer[data_counter] <= rx_stable; 
                             if (data_counter == (DATA_WIDTH_SELECT - 1)) begin
                                 if (PARITY_SELECT != 0) begin
                                     transaction_state <= PARITY_STATE;
@@ -223,13 +199,11 @@ module uart_rx #(
                                 data_counter <= data_counter + 1'b1;
                             end
                         end
-                        
                         PARITY_STATE: begin
                             parity_buffer <= rx_stable;
                             transaction_state <= STOP_STATE;
                             stop_bit_counter <= STOP_BIT_SELECT - 1;
                         end
-                        
                         STOP_STATE: begin
                             if (rx_stable == 1'b1) begin
                                 if (stop_bit_counter == 'b0) begin
@@ -245,7 +219,6 @@ module uart_rx #(
                                 stop_bit_error <= 1'b1;
                             end
                         end
-                        
                         default: begin
                             transaction_state <= START_BIT_STATE;
                         end

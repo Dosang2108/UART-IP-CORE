@@ -23,15 +23,11 @@ module asyn_fifo #(
     input  wire                     rst_n
 );
 
-    // =========================================================================
     // LOCAL PARAMETERS
-    // =========================================================================
     localparam integer ADDR_WIDTH = (FIFO_DEPTH > 1) ? $clog2(FIFO_DEPTH) : 1;
     localparam integer ADDR_OVF_WIDTH = ADDR_WIDTH + 1;
     
-    // =========================================================================
     // INTERNAL SIGNALS
-    // =========================================================================
     // Memory array
     (* ram_style = "distributed" *) reg [DATA_WIDTH-1:0] buffer [0:FIFO_DEPTH-1];
     
@@ -53,9 +49,7 @@ module asyn_fifo #(
     wire wr_handshake;
     wire rd_handshake;
     
-    // =========================================================================
     // SYNCHRONIZERS (Cross-clock domain) or BYPASS (Same-clock)
-    // =========================================================================
     generate
         if (NUM_SYNC_FF > 0) begin : gen_async_sync
             // Async FIFO - use synchronizers
@@ -85,9 +79,7 @@ module asyn_fifo #(
         end
     endgenerate
     
-    // =========================================================================
     // GRAY ⇔ BINARY CONVERSION FUNCTIONS
-    // =========================================================================
     function automatic [ADDR_OVF_WIDTH-1:0] bin2gray (
         input [ADDR_OVF_WIDTH-1:0] bin
     );
@@ -108,9 +100,7 @@ module asyn_fifo #(
     end
     endfunction
     
-    // =========================================================================
     // COMBINATIONAL LOGIC (Common for both types)
-    // =========================================================================
     
     // For same-clock (NUM_SYNC_FF=0): use binary pointers directly (no gray delay)
     // For async (NUM_SYNC_FF>0): use synchronized gray-converted pointers
@@ -137,9 +127,7 @@ module asyn_fifo #(
     assign wr_handshake = wr_valid_i && wr_ready_o;
     assign rd_handshake = rd_valid_i && rd_ready_o;
     
-    // =========================================================================
     // NORMAL FIFO (Type 0)
-    // =========================================================================
     generate
         if (ASFIFO_TYPE == 0) begin : NORMAL_FIFO
             

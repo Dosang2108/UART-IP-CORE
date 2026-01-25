@@ -7,104 +7,60 @@ Time resolution is 1 ps
 [BAUD_GEN] Actual RX Baud = 114889.7 bps
 [BAUD_GEN] TX Period = 8680.0 ns
 [BAUD_GEN] RX Period = 544.0 ns
-=== UART System Test Started ===
-CLK_PERIOD: 8 ns, BIT_PERIOD: 8680 ns
+========================================
+UART Controller Testbench Started
+Clock Period: 8 ns
+Baud Rate: 115200
+========================================
 
-[TEST 1] Basic RX Test - Single Byte
-[TB] Sending RX: 0xa5 at time 1100000
-[PASS] RX Data: 0xa5 at time 100764000
+[TEST 1] Read Status Register
+Status Register = 0x00000002
+  tx_fifo_full = 0
+  rx_fifo_empty = 1
+  tx_busy = 0
+  rx_busy = 0
 
-[TEST 2] Multiple RX Bytes
-[TB] Sending RX: 0x12 at time 235460000
-[PASS] RX Data: 0x12 at time 335228000
-[TB] Sending RX: 0x34 at time 469820000
-[PASS] RX Data: 0x34 at time 569692000
-[TB] Sending RX: 0x56 at time 704180000
-[PASS] RX Data: 0x56 at time 804156000
+[TEST 2] Write Single Byte to TX FIFO (Loopback Test)
+[404000] AXI Write: addr=0x20000010, data=0x000000a5
 
-[TEST 3] Back-to-Back RX
-[TB] Sending RX: 0x78 at time 938540000
-[PASS] RX Data: 0x78 at time 1038620000
-[TB] Sending RX: 0x9a at time 1042700000
-[PASS] RX Data: 0x9a at time 1142524000
-[TB] Sending RX: 0xbc at time 1146860000
-[PASS] RX Data: 0xbc at time 1246972000
+[TEST 3] Wait and Read Received Byte from RX FIFO
+[404000] Waiting for RX data...
+[100276000] RX data available!
+SUCCESS: Loopback data matched! Sent: 0xa5, Received: 0xa5
 
-[TEST 4] Basic TX Test
-[TB] Sending TX: 0x55 at time 1598220000
-[TX MONITOR] Start bit detected at time 1598236000
-[PASS] TX Data: 0x55 at time 1698056000
+[TEST 4] Write Multiple Bytes
+Sending byte 0: 0x30 (ASCII '0')
+[101164000] AXI Write: addr=0x20000010, data=0x00000030
+Sending byte 1: 0x31 (ASCII '1')
+[102020000] AXI Write: addr=0x20000010, data=0x00000031
+Sending byte 2: 0x32 (ASCII '2')
+[102876000] AXI Write: addr=0x20000010, data=0x00000032
+Sending byte 3: 0x33 (ASCII '3')
+[103732000] AXI Write: addr=0x20000010, data=0x00000033
+Sending byte 4: 0x34 (ASCII '4')
+[104588000] AXI Write: addr=0x20000010, data=0x00000034
 
-[TEST 5] Multiple TX Bytes
-[TB] Sending TX: 0xaa at time 1771828000
-[TX MONITOR] Start bit detected at time 1771844000
-[PASS] TX Data: 0xaa at time 1871664000
-[TB] Sending TX: 0xcc at time 1945436000
-[TX MONITOR] Start bit detected at time 1945452000
-[PASS] TX Data: 0xcc at time 2045272000
+[TEST 5] Read Multiple Bytes from RX FIFO
+[105388000] Waiting for RX data...
+[204212000] RX data available!
+  [PASS]: Byte 0 MATCH: Expected 0x30, Got 0x30 (ASCII '0')
+[204244000] Waiting for RX data...
+[308588000] RX data available!
+  [PASS]: Byte 1 MATCH: Expected 0x31, Got 0x31 (ASCII '1')
+[308620000] Waiting for RX data...
+[412548000] RX data available!
+  [PASS]: Byte 2 MATCH: Expected 0x32, Got 0x32 (ASCII '2')
+[412580000] Waiting for RX data...
+[516404000] RX data available!
+  [PASS]: Byte 3 MATCH: Expected 0x33, Got 0x33 (ASCII '3')
+[516436000] Waiting for RX data...
+[620884000] RX data available!
+  [PASS]: Byte 4 MATCH: Expected 0x34, Got 0x34 (ASCII '4')
 
-[TEST 6] RX with CPU Backpressure
-[TB] Sending RX: 0xf0 at time 2119044000
-[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219100000
-[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219108000
-[DEBUG] RX data available but CPU not ready: 0xf0 at time 2219116000
-[DEBUG] ... (suppressing further backpressure messages)
-[PASS] RX Data: 0xf0 at time 2396804000
+[TEST 6] Check Status Register After Operations
+Final Status Register = 0x00000012
 
-[TEST 7] Sequential RX and TX
-[TB] Sending TX: 0xc3 at time 2527004000
-[TX MONITOR] Start bit detected at time 2527020000
-[PASS] TX Data: 0xc3 at time 2626840000
-[TB] Sending RX: 0xd5 at time 2638828000
-[PASS] RX Data: 0xd5 at time 2738620000
-[TB] Sending TX: 0x3c at time 2769028000
-[TX MONITOR] Start bit detected at time 2769044000
-[PASS] TX Data: 0x3c at time 2868864000
-[TB] Sending RX: 0x5d at time 2881868000
-[PASS] RX Data: 0x5d at time 2981788000
-
-[TEST 8] FIFO Stress Test - Burst RX
-[TB] Sending RX: 0x24 at time 3055468000
-[PASS] RX Data: 0x24 at time 3155324000
-[TB] Sending RX: 0x81 at time 3263788000
-[PASS] RX Data: 0x81 at time 3363676000
-[TB] Sending RX: 0x09 at time 3472108000
-[PASS] RX Data: 0x09 at time 3572028000
-[TB] Sending RX: 0x63 at time 3680428000
-[PASS] RX Data: 0x63 at time 3780380000
-[TB] Sending RX: 0x0d at time 3888748000
-[PASS] RX Data: 0x0d at time 3988732000
-[TB] Sending RX: 0x8d at time 4097068000
-[PASS] RX Data: 0x8d at time 4197084000
-[TB] Sending RX: 0x65 at time 4305388000
-[PASS] RX Data: 0x65 at time 4405436000
-[TB] Sending RX: 0x12 at time 4513708000
-[PASS] RX Data: 0x12 at time 4613788000
-
-[TEST 9] TX Sequential Test
-[TB] Sending TX: 0x01 at time 4982428000
-[TX MONITOR] Start bit detected at time 4982444000
-[PASS] TX Data: 0x01 at time 5082264000
-[TB] Sending TX: 0x02 at time 5095268000
-[TX MONITOR] Start bit detected at time 5095284000
-[PASS] TX Data: 0x02 at time 5195104000
-[TB] Sending TX: 0x03 at time 5208108000
-[TX MONITOR] Start bit detected at time 5208124000
-[PASS] TX Data: 0x03 at time 5307944000
-[TB] Sending TX: 0x04 at time 5320948000
-[TX MONITOR] Start bit detected at time 5320964000
-[PASS] TX Data: 0x04 at time 5420784000
-[TB] Sending TX: 0x05 at time 5433788000
-[TX MONITOR] Start bit detected at time 5433804000
-[PASS] TX Data: 0x05 at time 5533624000
-[TB] Sending TX: 0x06 at time 5546628000
-[TX MONITOR] Start bit detected at time 5546644000
-[PASS] TX Data: 0x06 at time 5646464000
-[TB] Sending TX: 0x07 at time 5659468000
-[TX MONITOR] Start bit detected at time 5659484000
-[PASS] TX Data: 0x07 at time 5759304000
-[TB] Sending TX: 0x08 at time 5772308000
-[TX MONITOR] Start bit detected at time 5772324000
-[PASS] TX Data: 0x08 at time 5872144000
-
-===================
+========================================
+UART Controller Testbench Completed
+========================================
+$finish called at time : 623540 ns : File "D:/GITHUB_PROJECT/UART/UART.srcs/sim_1/new/uart_ctrl_tb.v" Line 300

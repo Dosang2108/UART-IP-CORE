@@ -3,8 +3,8 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Thu Jan 22 16:46:16 2026
-# Process ID: 19544
+# Start of session at: Thu Jan 22 19:09:13 2026
+# Process ID: 26908
 # Current directory: D:/GITHUB_PROJECT/UART/UART.runs/impl_1
 # Command line: vivado.exe -log uart_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source uart_top.tcl -notrace
 # Log file: D:/GITHUB_PROJECT/UART/UART.runs/impl_1/uart_top.vdi
@@ -19,6 +19,6 @@
 # Host memory       :16890 MB
 # Swap memory       :23622 MB
 # Total Virtual     :40513 MB
-# Available Virtual :16036 MB
+# Available Virtual :7967 MB
 #-----------------------------------------------------------
 source uart_top.tcl -notrace

@@ -176,7 +176,7 @@ module uart_ctrl_tb();
             if (s_axi_rresp != 2'b00) begin
                 $display("[%0t] ERROR: AXI Read from 0x%h failed with response: %b", $time, addr, s_axi_rresp);
             end else begin
-                $display("[%0t] AXI Read: addr=0x%h, data=0x%h", $time, addr, data);
+                //$display("[%0t] AXI Read: addr=0x%h, data=0x%h", $time, addr, data);
             end
         end
     endtask
@@ -278,9 +278,9 @@ module uart_ctrl_tb();
             axi_read(ADDR_RX_FIFO, read_data);
             test_data = 8'h30 + i;
             if (read_data[7:0] == test_data) begin
-                $display("  ✓ Byte %0d MATCH: Expected 0x%h, Got 0x%h (ASCII '%c')", i, test_data, read_data[7:0], read_data[7:0]);
+                $display("  [PASS]: Byte %0d MATCH: Expected 0x%h, Got 0x%h (ASCII '%c')", i, test_data, read_data[7:0], read_data[7:0]);
             end else begin
-                $display("  ✗ Byte %0d ERROR: Expected 0x%h, Got 0x%h (ASCII '%c')", i, test_data, read_data[7:0], read_data[7:0]);
+                $display("  [FALSE]: Byte %0d ERROR: Expected 0x%h, Got 0x%h (ASCII '%c')", i, test_data, read_data[7:0], read_data[7:0]);
             end
         end
         

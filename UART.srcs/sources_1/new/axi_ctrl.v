@@ -210,8 +210,8 @@ module axi4lite_ctrl #(
             end else begin
                 // If no pending response, and have both address+data => commit
                 if (aw_hold && w_hold) begin
-                    $display("[AXI_CTRL] Write Commit: addr=0x%h, data=0x%h, AXI4_CTRL_WR_ST=%b, wr_st_sel=%b", 
-                             awaddr_hold, wdata_hold, AXI4_CTRL_WR_ST, wr_st_sel);
+                    //$display("[AXI_CTRL] Write Commit: addr=0x%h, data=0x%h, AXI4_CTRL_WR_ST=%b, wr_st_sel=%b", 
+                    //         awaddr_hold, wdata_hold, AXI4_CTRL_WR_ST, wr_st_sel);
                     // default OKAY
                     s_axi_bresp  <= 2'b00;
                     // AXI4-Lite compliance checks
@@ -247,8 +247,8 @@ module axi4lite_ctrl #(
                         end
                         // Stream write (push)
                         else if (AXI4_CTRL_WR_ST && wr_st_sel) begin
-                            $display("[AXI_CTRL] Stream Write detected: addr=0x%h, data=0x%h, can_accept=%b", 
-                                     awaddr_hold, wdata_hold, wr_st_can_accept_i);
+                            //$display("[AXI_CTRL] Stream Write detected: addr=0x%h, data=0x%h, can_accept=%b", 
+                            //         awaddr_hold, wdata_hold, wr_st_can_accept_i);
                             // For UART TX: typically only use lower 8 bits
                             // Apply WSTRB mask: only send bytes with strobe asserted
                             wr_st_data_o <= wdata_hold;  // Full word (application can select bytes)
@@ -258,11 +258,11 @@ module axi4lite_ctrl #(
                                 // Only push if stream can accept (FIFO not full)
                                 if (wr_st_can_accept_i[wr_index]) begin
                                     wr_st_push_o[wr_index] <= 1'b1;
-                                    $display("[AXI_CTRL] PUSH OK: index=%0d, data=0x%02h", wr_index, wdata_hold[7:0]);
+                                //    $display("[AXI_CTRL] PUSH OK: index=%0d, data=0x%02h", wr_index, wdata_hold[7:0]);
                                 end else begin
                                     // FIFO full - return error
                                     s_axi_bresp <= 2'b10; // SLVERR
-                                    $display("[AXI_CTRL] PUSH FAILED: FIFO FULL");
+                                //    $display("[AXI_CTRL] PUSH FAILED: FIFO FULL");
                                 end
                             end else begin
                                 s_axi_bresp <= 2'b11; // DECERR

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date         : Thu Jan 22 16:46:53 2026
+| Date         : Thu Jan 22 19:10:09 2026
 | Host         : MinhSang running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file uart_top_control_sets_placed.rpt
 | Design       : uart_top
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    44 |
-|    Minimum number of control sets                        |    44 |
+| Total control sets                                       |    43 |
+|    Minimum number of control sets                        |    43 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    44 |
+| Unused register locations in slices containing registers |    36 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,9 +39,9 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    44 |
+| Total control sets |    43 |
 | >= 0 to < 4        |     1 |
-| >= 4 to < 6        |     9 |
+| >= 4 to < 6        |     8 |
 | >= 6 to < 8        |     0 |
 | >= 8 to < 10       |    33 |
 | >= 10 to < 12      |     0 |
@@ -59,10 +59,10 @@ Table of Contents
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | No           | No                    | No                     |               0 |            0 |
-| No           | No                    | Yes                    |              39 |           13 |
+| No           | No                    | Yes                    |              43 |           13 |
 | No           | Yes                   | No                     |               3 |            1 |
-| Yes          | No                    | No                     |             256 |           70 |
-| Yes          | No                    | Yes                    |              50 |           22 |
+| Yes          | No                    | No                     |             256 |           72 |
+| Yes          | No                    | Yes                    |              46 |           23 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -74,49 +74,48 @@ Table of Contents
 |  Clock Signal  |                 Enable Signal                |  Set/Reset Signal  | Slice Load Count | Bel Load Count | Bels / Slice |
 +----------------+----------------------------------------------+--------------------+------------------+----------------+--------------+
 |  clk_IBUF_BUFG | uart_tx_inst/TX_i_1_n_0                      | uart_rx_inst/rst_n |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG | baud_gen_inst/E[0]                           | uart_rx_inst/rst_n |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG | uart_rx_inst/data_counter                    | uart_rx_inst/rst_n |                1 |              4 |         4.00 |
 |  clk_IBUF_BUFG | uart_tx_inst/bit_counter[3]_i_1_n_0          | uart_rx_inst/rst_n |                1 |              4 |         4.00 |
-|  clk_IBUF_BUFG | uart_tx_inst/oversample_count[3]_i_1_n_0     | uart_rx_inst/rst_n |                1 |              4 |         4.00 |
-|  clk_IBUF_BUFG | fifo_rx/wr_handshake                         | uart_rx_inst/rst_n |                1 |              5 |         5.00 |
-|  clk_IBUF_BUFG | fifo_rx/rd_handshake                         | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
-|  clk_IBUF_BUFG | fifo_tx/E[0]                                 | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
-|  clk_IBUF_BUFG | fifo_tx/wr_handshake                         | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
-|  clk_IBUF_BUFG | uart_tx_inst/FSM_onehot_tx_state[4]_i_1_n_0  | uart_rx_inst/rst_n |                1 |              5 |         5.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[13][7]_i_1__0_n_0 |                    |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[10][7]_i_1__0_n_0 |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[3][7]_i_1__0_n_0  |                    |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[9][7]_i_1__0_n_0  |                    |                8 |              8 |         1.00 |
+|  clk_IBUF_BUFG | baud_gen_inst/E[0]                           | uart_rx_inst/rst_n |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG | uart_rx_inst/data_counter                    | uart_rx_inst/rst_n |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.wr_ptr_bin[4]_i_1_n_0    | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.rd_ptr_bin[4]_i_1__0_n_0 | uart_rx_inst/rst_n |                1 |              5 |         5.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.wr_ptr_bin[4]_i_1__0_n_0 | uart_rx_inst/rst_n |                3 |              5 |         1.67 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.rd_ptr_bin[4]_i_1_n_0    | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG | uart_tx_inst/FSM_onehot_tx_state[4]_i_1_n_0  | uart_rx_inst/rst_n |                2 |              5 |         2.50 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[4][7]_i_1__0_n_0  |                    |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[5][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[13][7]_i_1__0_n_0 |                    |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[1][7]_i_1__0_n_0  |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[14][7]_i_1__0_n_0 |                    |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[10][7]_i_1__0_n_0 |                    |                1 |              8 |         8.00 |
 |  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[12][7]_i_1__0_n_0 |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[2][7]_i_1__0_n_0  |                    |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[5][7]_i_1__0_n_0  |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[7][7]_i_1__0_n_0  |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[4][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[10][7]_i_1_n_0    |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[12][7]_i_1_n_0    |                    |                6 |              8 |         1.33 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[15][7]_i_1_n_0    |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[14][7]_i_1__0_n_0 |                    |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[13][7]_i_1_n_0    |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[15][7]_i_1__0_n_0 |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[3][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[7][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
 |  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[14][7]_i_1_n_0    |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[11][7]_i_1_n_0    |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[4][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[6][7]_i_1_n_0     |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[1][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[5][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[2][7]_i_1_n_0     |                    |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[8][7]_i_1_n_0     |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[9][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[2][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[15][7]_i_1_n_0    |                    |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[12][7]_i_1_n_0    |                    |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[2][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[13][7]_i_1_n_0    |                    |                2 |              8 |         4.00 |
 |  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[7][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[9][7]_i_1_n_0     |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[11][7]_i_1__0_n_0 |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[15][7]_i_1__0_n_0 |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.wr_ptr_bin_reg[4]_0[0]   | uart_rx_inst/rst_n |                8 |              8 |         1.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[5][7]_i_1_n_0     |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[1][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[10][7]_i_1_n_0    |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[8][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[6][7]_i_1__0_n_0  |                    |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[4][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[6][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[3][7]_i_1_n_0     |                    |                4 |              8 |         2.00 |
 |  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[0][7]_i_1_n_0     |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[8][7]_i_1__0_n_0  |                    |                5 |              8 |         1.60 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[6][7]_i_1__0_n_0  |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[0][7]_i_1__0_n_0  |                    |                1 |              8 |         8.00 |
-|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[1][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[3][7]_i_1_n_0     |                    |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG |                                              | uart_rx_inst/rst_n |               14 |             42 |         3.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[8][7]_i_1__0_n_0  |                    |                7 |              8 |         1.14 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[0][7]_i_1__0_n_0  |                    |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[11][7]_i_1__0_n_0 |                    |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG | fifo_rx/NORMAL_FIFO.buffer[9][7]_i_1__0_n_0  |                    |                8 |              8 |         1.00 |
+|  clk_IBUF_BUFG | uart_tx_inst/tx_buffer                       | uart_rx_inst/rst_n |                8 |              8 |         1.00 |
+|  clk_IBUF_BUFG | fifo_tx/NORMAL_FIFO.buffer[11][7]_i_1_n_0    |                    |                1 |              8 |         8.00 |
+|  clk_IBUF_BUFG |                                              | uart_rx_inst/rst_n |               14 |             46 |         3.29 |
 +----------------+----------------------------------------------+--------------------+------------------+----------------+--------------+
 
 

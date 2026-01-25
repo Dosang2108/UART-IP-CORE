@@ -25,26 +25,20 @@ module uart_tx #(
     output wire                     tx_busy
 );
 
-    // =========================================================================
     // STATE DEFINITIONS
-    // =========================================================================
     localparam [2:0] IDLE_STATE      = 3'b000;
     localparam [2:0] START_BIT_STATE = 3'b001;
     localparam [2:0] DATA_STATE      = 3'b010;
     localparam [2:0] PARITY_STATE    = 3'b011;
     localparam [2:0] STOP_BIT_STATE  = 3'b100;
     
-    // =========================================================================
     // INTERNAL REGISTERS
-    // =========================================================================
     reg [2:0] tx_state           = IDLE_STATE;
     reg [DATA_WIDTH-1:0] tx_buffer = 'b0;
     reg [3:0] bit_counter       = 'b0;
     reg [1:0] stop_bit_counter  = 'b0;
     
-    // =========================================================================
     // PARITY CALCULATION
-    // =========================================================================
     wire parity_bit_even = ^tx_buffer;
     wire parity_bit_odd  = ~parity_bit_even;
     
@@ -60,14 +54,10 @@ module uart_tx #(
         end
     endgenerate
     
-    // =========================================================================
     // STATUS SIGNALS
-    // =========================================================================
     assign tx_busy = (tx_state != IDLE_STATE);
     
-    // =========================================================================
     // TRANSMIT STATE MACHINE (1x baud rate - standard UART TX)
-    // =========================================================================
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             tx_state          <= IDLE_STATE;
