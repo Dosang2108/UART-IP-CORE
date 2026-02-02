@@ -6,14 +6,4 @@ Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.baud_gen_default
-Compiling module xil_defaultlib.asyn_fifo(FIFO_DEPTH=16,NUM_SYNC...
-Compiling module xil_defaultlib.uart_tx_default
-Compiling module xil_defaultlib.uart_rx
-Compiling module xil_defaultlib.uart_top
-Compiling module xil_defaultlib.uart_system_tb
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot uart_system_tb_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

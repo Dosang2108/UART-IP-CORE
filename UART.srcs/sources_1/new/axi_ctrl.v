@@ -138,26 +138,26 @@ module axi4lite_ctrl #(
 
     // Address decode (byte addressing)
     // AXI4-Lite compliance: Check alignment
+// 1. Kiểm tra căn lề (Đã OK)
     wire wr_addr_aligned = CHECK_ALIGNMENT ? (awaddr_hold[ALIGN_BITS-1:0] == {ALIGN_BITS{1'b0}}) : 1'b1;
-    wire rd_addr_aligned = CHECK_ALIGNMENT ? (s_axi_araddr[ALIGN_BITS-1:0] == {ALIGN_BITS{1'b0}}) : 1'b1;
+    wire rd_addr_aligned = CHECK_ALIGNMENT ? (araddr_hold[ALIGN_BITS-1:0] == {ALIGN_BITS{1'b0}}) : 1'b1;
     
+    // 2. Logic Write (Giữ nguyên, cái này đã chạy đúng)
     wire wr_conf_sel = (awaddr_hold >= CONF_BASE_ADDR) &&
                        (awaddr_hold <  (CONF_BASE_ADDR + CONF_OFFSET*CONF_REG_NUM));
 
     wire wr_st_sel   = (awaddr_hold >= ST_WR_BASE_ADDR) &&
                        (awaddr_hold <  (ST_WR_BASE_ADDR + ST_WR_OFFSET*ST_WR_FIFO_NUM));
     
-    // Detect unmapped write addresses
     wire wr_addr_valid = (AXI4_CTRL_CONF && wr_conf_sel) ||
                          (AXI4_CTRL_WR_ST && wr_st_sel) ||
                          (AXI4_CTRL_MEM);
-
-    wire rd_conf_sel = (s_axi_araddr >= CONF_BASE_ADDR) &&
-                       (s_axi_araddr <  (CONF_BASE_ADDR + CONF_OFFSET*CONF_REG_NUM));
-
-    wire rd_st_sel   = (s_axi_araddr >= ST_RD_BASE_ADDR) &&
-                       (s_axi_araddr <  (ST_RD_BASE_ADDR + ST_RD_OFFSET*ST_RD_FIFO_NUM));
     
+    wire rd_conf_sel = (araddr_hold >= CONF_BASE_ADDR) && 
+                       (araddr_hold <  (CONF_BASE_ADDR + CONF_OFFSET*CONF_REG_NUM));
+
+    wire rd_st_sel   = (araddr_hold >= ST_RD_BASE_ADDR) && 
+                       (araddr_hold <  (ST_RD_BASE_ADDR + ST_RD_OFFSET*ST_RD_FIFO_NUM));
     // Detect unmapped read addresses
     wire rd_addr_valid = (AXI4_CTRL_CONF && rd_conf_sel) ||
                          (AXI4_CTRL_RD_ST && rd_st_sel) ||
