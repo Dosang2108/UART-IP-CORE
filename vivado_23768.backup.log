@@ -3,10 +3,10 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Sat Apr  4 11:32:04 2026
-# Process ID: 17496
+# Start of session at: Wed Jan 21 11:57:24 2026
+# Process ID: 23768
 # Current directory: D:/GITHUB_PROJECT/UART
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent41424 D:\GITHUB_PROJECT\UART\UART.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent42216 D:\GITHUB_PROJECT\UART\UART.xpr
 # Log file: D:/GITHUB_PROJECT/UART/vivado.log
 # Journal file: D:/GITHUB_PROJECT/UART\vivado.jou
 # Running On        :MinhSang
@@ -17,15 +17,12 @@
 # CPU Physical cores:12
 # CPU Logical cores :16
 # Host memory       :16890 MB
-# Swap memory       :36507 MB
-# Total Virtual     :53398 MB
-# Available Virtual :32414 MB
+# Swap memory       :22548 MB
+# Total Virtual     :39439 MB
+# Available Virtual :6814 MB
 #-----------------------------------------------------------
 start_gui
 open_project D:/GITHUB_PROJECT/UART/UART.xpr
-INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'D:/GITHUB_PROJECT/UART/UART.gen/sources_1'.
-Scanning sources...
-Finished scanning sources
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:kc705:part0:1.6 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kc705/1.6/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.6 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.6/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.7 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/kcu105/1.7/board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
@@ -87,10 +84,12 @@ WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216:part0:2.0 availab
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/2.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at D:/xilinx/Vivado/2024.1/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670ld/1.0/board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+INFO: [Project 1-313] Project file moved from 'E:/GITHUB_PROJECT/UART' since last save.
+INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'D:/GITHUB_PROJECT/UART/UART.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/xilinx/Vivado/2024.1/data/ip'.
-open_project: Time (s): cpu = 00:00:40 ; elapsed = 00:00:23 . Memory (MB): peak = 1582.855 ; gain = 473.730
+open_project: Time (s): cpu = 00:00:50 ; elapsed = 00:00:27 . Memory (MB): peak = 1566.883 ; gain = 433.961
 update_compile_order -fileset sources_1
-exit
-INFO: [Common 17-206] Exiting Vivado at Sat Apr  4 11:33:28 2026...
